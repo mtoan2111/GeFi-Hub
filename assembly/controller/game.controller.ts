@@ -7,7 +7,7 @@ import { TokenStorage } from "../storage/token.storage";
 import { GameStorage } from "../storage/game.storage";
 
 export function gm_register(name: String, symbol: String, icon: String | null, space: String, token: String): String {
-    if (GameStorage.contain(name)) {
+    if (GameStorage.contain(space, name)) {
         return 'This game already registered, please chose another name!';
     }
     let isSpace: Space | null = SpaceStorage.get(Context.sender, space);
@@ -25,13 +25,20 @@ export function gm_register(name: String, symbol: String, icon: String | null, s
     return 'Register Done!';
 }
 
-export function gm_unregisters(): Game[] | null {
-    const ownerId = Context.sender;
+export function gm_unregisters(space: String, name: String): Game[] | null {
+    let ownerId = Context.sender;
+    let cr_space: SpaceStorage | null;
+    if(SpaceStorage.contain(ownerId) && GameStorage.contain(space, name)) {
+        
+    } else {
+        return null;
+    }
     return GameStorage.deletes(ownerId);
 }
 
 export function gm_unregister(name: String): Game | null {
     const ownerId = Context.sender;
+
     return GameStorage.delete(ownerId, ownerId);
 }
 
