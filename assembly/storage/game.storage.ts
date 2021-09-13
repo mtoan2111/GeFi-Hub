@@ -50,7 +50,7 @@ export class GameStorage {
         return gefi_Games.getSome(owner).contains(space);
     }
 
-    static delete(owner: String, space: String): Space | null {
+    static delete(owner: String, space: String): Game | null {
         if (!gefi_Games.contains(owner)) {
             return null;
         }
@@ -63,7 +63,7 @@ export class GameStorage {
         return dl_space;
     }
 
-    static deletes(owner: String): Space[] | null {
+    static deletes(owner: String): Game[] | null {
         if (!gefi_Games.contains(owner)) {
             return null;
         }
