@@ -40,47 +40,54 @@ export class GameStorage {
 
     static set(space: String, game: Game): void {
         let userId = Context.sender;
+        let games = new PersistentUnorderedMap<String, Game>(`games`);
+        games.set(game.name, game);
         if (!gefi_Games.contains(userId)) {
-            let gm_spaces = new PersistentUnorderedMap<String, PersistentUnorderedMap<String, Game>>(`${space}::${game.name}`);
-            gm_spaces.set(game.name, game);
-            let pm_spaces = 
-            gefi_Games.set(userId, pm_spaces);
+            let gm_spaces = new PersistentUnorderedMap<String, PersistentUnorderedMap<String, Game>>(`${space}`);
+            gm_spaces.set(space, games);
+            gefi_Games.set(userId, gm_spaces);
             return;
         }
-        const pm_spaces = gefi_Games.getSome(space);
-        pm_spaces.set(game.name, game);
-        gefi_Games.set(space, pm_spaces);
+        let usr_spaces = gefi_Games.getSome(userId);
+        usr_spaces.set(space, games);
     }
 
     static contain(space: String, name: String): bool {
-        return gefi_Games.getSome(space).contains(name);
-    }
-
-    static contains(space: String, name: String): bool {
-        if (!gefi_Games.contains(space)) {
+        let userId = Context.sender;
+        if (!gefi_Games.contains(userId) || !gefi_Games.getSome(userId).contains(space)) {
             return false;
         }
-        return gefi_Games.getSome(space).contains(name);
+        return gefi_Games.getSome(userId).getSome(space).contains(name);
+    }
+
+    static contains(space: String): bool {
+        let userId = Context.sender;
+        if (!gefi_Games.contains(userId) || !gefi_Games.getSome(userId).contains(space)) {
+            return false;
+        }
+        return gefi_Games.getSome(userId).contains(space);
     }
 
     static delete(space: String, name: String): Game[] | null {
-        if (!gefi_Games.contains(space)) {
+        let userId = Context.sender;
+        if (!gefi_Games.contains(userId)) {
             return null;
         }
-        const pm_spaces = gefi_Games.getSome(space);
-        if (!pm_spaces.contains(name)) {
+        const pm_spaces = gefi_Games.getSome(userId);
+        if (!pm_spaces.contains(space)) {
             return null;
         }
-        pm_spaces.delete(name);
-        return pm_spaces.values();
+        pm_spaces.getSome(space).delete(name);
+        return pm_spaces.getSome(space).values();
     }
 
     static deletes(space: String): Game[] | null {
-        if (!gefi_Games.contains(space)) {
+        let userId = Context.sender;
+        if (!gefi_Games.contains(userId)) {
             return null;
         }
-        const dl_spaces = gefi_Games.getSome(space).values();
-        gefi_Games.delete(space);
+        const dl_spaces = gefi_Games.getSome(userId).getSome(space).values();
+        gefi_Games.getSome(userId).delete(space);
         return dl_spaces;
     }
 }

@@ -24,34 +24,28 @@ export function gm_register(name: String, symbol: String, icon: String | null, s
     }
     return 'Register Done!';
 }
-
-export function gm_unregisters(space: String, name: String): Game[] | null {
+// Delete Space which included games
+export function gm_unregisters(space: String): Game[] | null {
     let ownerId = Context.sender;
     let cr_space: SpaceStorage | null;
-    if(SpaceStorage.contain(ownerId) && GameStorage.contain(space, name)) {
-        
-    } else {
-        return null;
+    if (SpaceStorage.contain(ownerId) && GameStorage.contains(space)) {
+        return GameStorage.deletes(space);
     }
-    return GameStorage.deletes(ownerId);
+    return null;
+}
+// Delete a game
+export function gm_unregister(space: String, name: String): Game[] | null {
+    return GameStorage.delete(space, name);
 }
 
-export function gm_unregister(name: String): Game | null {
-    const ownerId = Context.sender;
-
-    return GameStorage.delete(ownerId, ownerId);
-}
-
-export function gm_update(name: String, symbol: String, icon: String | null): bool {
-    const ownerId = Context.sender;
-    const space = SpaceStorage.get(ownerId, name);
-    if (space == null) {
+export function gm_update(space: String, name: String, symbol: String, icon: String | null): bool {
+    let game = GameStorage.get(space, name);
+    if(!game) {
         return false;
     }
-    
-    space.update_symbol(symbol);
-    space.update_icon(icon);
-    space.save();
-
+    game?.update_icon(icon);
+    game?.update_symbol(symbol);
+    game?.save();
+    GameStorage.set(space, game);
     return true;
 }
