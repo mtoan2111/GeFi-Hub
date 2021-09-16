@@ -5,34 +5,34 @@ import { Token } from "./token.model";
 @nearBindgen
 export class Game {
     public token: Token;
-    constructor(public name: String, public symbol: String | null, public icon: String | null, public space: Space) {}
+    constructor(public name: String, public symbol: String, public icon: String, public space: Space) {}
 
-    register() {
+    register(): void {
         this.save();
     }
 
-    update_token(token: Token) {
+    update_token(token: Token): void {
         if (!this.token.compare(token)) {
             this.token = token;
         }
         this.save();
     }
 
-    update_symbol(symbol: String) {
+    update_symbol(symbol: String): void {
         if (symbol != this.symbol) {
             this.symbol = symbol;
         }
         this.save();
     }
 
-    update_icon(icon: String | null) {
+    update_icon(icon: String): void {
         if (icon != this.icon) {
             this.icon = icon;
         }
         this.save();
     }
 
-    save() {
+    save(): void {
         GameStorage.set(this.space.name, this);
     }
 }

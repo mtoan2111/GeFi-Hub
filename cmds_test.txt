@@ -33,3 +33,8 @@ near call neutrino.testnet getMatch  --account-id neutrino.testnet --gas=3000000
 
 near call neutrino.testnet finishMatch '{\"id\": \"C1tbALg81eAv864kXLhRtnboYsiobhTsxSqaLYEBN8bp2Piw\", \"result\":0, \"winner\":\"gefitesth.testnet\"}' --accountId neutrino.testnet --gas=300000000000000
 near call neutrino.testnet cancelMatch '{\"id\":\"C1tbALg81eAv864kXLhRtnboYsiobhTxpraR924mhyaDuWMQ\"}'  --account-id neutrino.testnet --gas=300000000000000
+
+near call gefihub.neutrino.testnet buy_token '{\"ownerId\":\"s\", \"name\":\"\"}'
+
+near call gefihub.neutrino.testnet tk_register '{\"name\":\"Gefi\", \"symbol\":\"GF\", \"icon\":\"AA\"}' --account-id neutrino.testnet --gas=300000000000000 --deposit 100
+

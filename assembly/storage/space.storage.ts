@@ -25,7 +25,7 @@ export class SpaceStorage {
 
     static set(owner: String, space: Space): void {
         if (!gefi_Spaces.contains(owner)) {
-            const pm_spaces = new PersistentUnorderedMap<String, Space>(`${owner}::${space}`);
+            const pm_spaces = new PersistentUnorderedMap<String, Space>(`${owner}::${space.name}`);
             pm_spaces.set(space.name, space);
             gefi_Spaces.set(owner, pm_spaces);
             return;

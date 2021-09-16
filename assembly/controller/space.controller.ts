@@ -2,7 +2,7 @@ import { Context, Storage } from "near-sdk-core";
 import { Space } from "../model/space.model";
 import { SpaceStorage } from "../storage/space.storage";
 
-export function sp_register(name: String, symbol: String, icon: String | null): Space | null {
+export function sp_register(name: String, symbol: String, icon: String): Space | null {
     const ownerId = Context.sender;
     if (SpaceStorage.contain(ownerId) && SpaceStorage.contains(ownerId, name)) {
         return SpaceStorage.get(ownerId, name);
@@ -23,7 +23,7 @@ export function sp_unregister(name: String): Space | null {
     return SpaceStorage.delete(ownerId, name);
 }
 
-export function sp_update(name: String, symbol: String, icon: String | null): bool {
+export function sp_update(name: String, symbol: String, icon: String): bool {
     const ownerId = Context.sender;
     const space = SpaceStorage.get(ownerId, name);
     if (space == null) {

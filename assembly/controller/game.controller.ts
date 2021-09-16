@@ -6,7 +6,7 @@ import { Context } from "near-sdk-core";
 import { TokenStorage } from "../storage/token.storage";
 import { GameStorage } from "../storage/game.storage";
 
-export function gm_register(name: String, symbol: String, icon: String | null, space: String, token: String): String {
+export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): String {
     if (GameStorage.contain(space, name)) {
         return 'This game already registered, please chose another name!';
     }
@@ -38,14 +38,14 @@ export function gm_unregister(space: String, name: String): Game[] | null {
     return GameStorage.delete(space, name);
 }
 
-export function gm_update(space: String, name: String, symbol: String, icon: String | null): bool {
+export function gm_update(space: String, name: String, symbol: String, icon: String): bool {
     let game = GameStorage.get(space, name);
     if(!game) {
         return false;
     }
-    game?.update_icon(icon);
-    game?.update_symbol(symbol);
-    game?.save();
+    game.update_icon(icon);
+    game.update_symbol(symbol);
+    game.save();
     GameStorage.set(space, game);
     return true;
 }

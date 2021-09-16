@@ -25,7 +25,7 @@ export class TokenStorage {
 
     static set(owner: String, token: Token): void {
         if (!gefi_Tokens.contains(owner)) {
-            const pm_Tokens = new PersistentUnorderedMap<String, Token>(`${owner}::${token}`);
+            const pm_Tokens = new PersistentUnorderedMap<String, Token>(`${owner}::${token.name}`);
             pm_Tokens.set(token.name, token);
             gefi_Tokens.set(owner, pm_Tokens);
             return;

@@ -4,23 +4,23 @@ import { SpaceStorage } from "../storage/space.storage";
 @nearBindgen
 export class Space {
     public owner: String;
-    constructor(public name: String, public symbol: String, public icon: String | null) {
+    constructor(public name: String, public symbol: String, public icon: String) {
         this.owner = Context.sender;
     }
 
-    update_symbol(symbol: String) {
+    update_symbol(symbol: String): void {
         if (symbol != this.symbol) {
             this.symbol = symbol;
         }
     }
 
-    update_icon(icon: String | null) {
+    update_icon(icon: String): void {
         if (icon != this.icon) {
             this.icon = icon;
         }
     }
 
-    save() {
+    save(): void {
         SpaceStorage.set(this.owner, this);
     }
 }

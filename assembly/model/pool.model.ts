@@ -11,7 +11,7 @@ export class Pool {
         this.name = `${token1.name}_${token2.name}`;
     }
 
-    save() {
+    save(): void {
         PoolStorage.set(``, this);
     }
 }
