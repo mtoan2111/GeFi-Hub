@@ -10,12 +10,12 @@ export function CrossDeposit(): ContractPromise {
     return promise;
 }
 
-export function CrossWithdraw(value: u128):ContractPromise {
+export function CrossWithdraw(value: u128):ContractPromiseBatch {
     let args: WithdrawArgs = {
         value: value.toString()
     }
     let promise = ContractPromise.create(target_contract, 'withDraw', args.encode(), GAS_AMOUNT);
     // Send Near back for user
-    ContractPromiseBatch.create(Context.sender).transfer(value);
-    return promise;
+    return ContractPromiseBatch.create(Context.sender).transfer(value);
+    // return promise;
 }

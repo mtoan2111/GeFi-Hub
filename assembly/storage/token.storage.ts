@@ -13,7 +13,7 @@ export class TokenStorage {
             return null;
         }
 
-        return pm_Tokens.getSome(token);
+        return pm_Tokens.get(token);
     }
 
     static gets(owner: String): Token[] {

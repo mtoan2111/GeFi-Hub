@@ -4,7 +4,7 @@ import * as token from "./controller/token.controller";
 import { Product } from "./model/product.model"
 import { Space } from "./model/space.model";
 import { Token } from "./model/token.model";
-import { u128, ContractPromise } from "near-sdk-as";
+import { u128, ContractPromise, ContractPromiseBatch } from "near-sdk-as";
 
 export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): Product | null {
     return game.gm_register(name, symbol, icon, space, token);
@@ -62,7 +62,7 @@ export function get_rate(ownerId: String, name: String): f64 {
     return token.get_rate(ownerId, name);
 }
 
-export function buy_near(ownerId: String, name: String, amount: u128): ContractPromise | null {
+export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
     return token.buy_near(ownerId, name, amount);
 }
 

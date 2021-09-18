@@ -120,6 +120,6 @@ export class Token {
     }
 
     save(): void {
-        TokenStorage.set(this.name, this);
+        TokenStorage.set(Context.sender, this);
     }
 }
