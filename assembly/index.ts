@@ -1,10 +1,13 @@
 import * as game from "./controller/product.controller";
 import * as space from "./controller/space.controller";
 import * as token from "./controller/token.controller";
+import * as user from "./controller/user.controller";
 import { Product } from "./model/product.model";
 import { Space } from "./model/space.model";
 import { Token } from "./model/token.model";
 import { u128, ContractPromise, ContractPromiseBatch } from "near-sdk-as";
+import { PaginationResult } from "./helper/pagination.helper";
+import { User } from "./model/user.model";
 
 export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): Product | null {
     return game.gm_register(name, symbol, icon, space, token);
@@ -38,12 +41,12 @@ export function tk_unregister(name: String): Token | null {
     return token.tk_unregister(name);
 }
 
-export function tk_update(name: String, symbol: String, icon: String): bool {
-    return token.tk_update(name, symbol, icon);
+export function tk_update(name: String, symbol: String, icon: String, ref: String): bool {
+    return token.tk_update(name, symbol, icon, ref);
 }
 
-export function tk_gets(owner: String): Token[] {
-    return token.tk_get(owner);
+export function tk_gets(): PaginationResult<Token> {
+    return token.tk_get();
 }
 
 export function get_rate(ownerId: String, name: String): f64 {
@@ -57,3 +60,15 @@ export function get_rate(ownerId: String, name: String): f64 {
 // export function buy_token(ownerId: String, name: String): ContractPromise | null {
 //     return token.buy_token(ownerId, name);
 // }
+
+export function us_get(): String | null {
+    return user.us_get();
+}
+
+export function us_deposit(to: String): void {
+    user.us_deposit(to);
+}
+
+export function us_withDraw(from: String, amount: u128): void {
+    user.us_withDraw(from, amount);
+}

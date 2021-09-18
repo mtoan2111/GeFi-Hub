@@ -90,14 +90,20 @@ export class Token {
     }
 
     update_symbol(symbol: String): void {
-        if (this.symbol != symbol) {
+        if (this.symbol != symbol && symbol != "") {
             this.symbol = symbol;
         }
     }
 
     update_icon(icon: String): void {
-        if (this.icon != icon) {
+        if (this.icon != icon && icon != "") {
             this.icon = icon;
+        }
+    }
+
+    update_ref(ref: String): void {
+        if (this.ref != ref && ref != "") {
+            this.ref = ref;
         }
     }
 
@@ -122,7 +128,7 @@ export class Token {
     }
 
     toString(): String {
-        return `{"name": ${this.name}, "symbol": ${this.symbol}, "icon": ${this.icon}}`;
+        return `{"name": ${this.name}, "symbol": ${this.symbol}, "icon": ${this.icon}, "ref": ${this.ref}}`;
     }
 
     save(): void {

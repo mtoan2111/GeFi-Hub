@@ -3,10 +3,11 @@ import { Token } from "../model/token.model";
 import { TokenStorage } from "../storage/token.storage";
 import { u128, ContractPromise, ContractPromiseBatch } from "near-sdk-core";
 import { CrossDeposit, CrossWithdraw } from "../helper/cross.helper";
+import { pagination, PaginationResult } from "../helper/pagination.helper";
 
 export function tk_register(name: String, symbol: String, icon: String, ref: String): Token | null {
     const ownerId = Context.sender;
-    if (TokenStorage.contains(ownerId, name)) {
+    if (TokenStorage.contain(name)) {
         return TokenStorage.get(name);
     }
     const new_token = new Token(name, symbol, icon, ref);
@@ -20,7 +21,7 @@ export function tk_unregister(name: String): Token | null {
     return TokenStorage.delete(ownerId, name);
 }
 
-export function tk_update(name: String, symbol: String, icon: String): bool {
+export function tk_update(name: String, symbol: String, icon: String, ref: String): bool {
     const ownerId = Context.sender;
     const token = TokenStorage.get(name);
     if (token == null || token.owner !== ownerId) {
@@ -29,6 +30,7 @@ export function tk_update(name: String, symbol: String, icon: String): bool {
 
     token.update_symbol(symbol);
     token.update_icon(icon);
+    token.update_ref(ref);
     token.save();
 
     return true;
@@ -79,6 +81,7 @@ export function get_rate(ownerId: String, name: String): f64 {
 //     return CrossDeposit();
 // }
 
-export function tk_get(owner: String): Token[] {
-    return TokenStorage.gets();
+export function tk_get(): PaginationResult<Token> {
+    const tokens = TokenStorage.gets();
+    return pagination(tokens, 0);
 }

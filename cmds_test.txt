@@ -49,5 +49,11 @@ near call neutrino.testnet sp_register '{\"name\":\"gefi\", \"symbol\":\"GF\", \
 
 
 //----
-near call mtoan2193.testnet tk_register '{"name":"Gefi", "symbol":"GF", "icon":"AA"}' --account-id mtoan2111.testnet --gas=300000000000000 --deposit 100
+near call mtoan2193.testnet sp_register '{"name":"Gefi", "symbol":"GF", "icon":"AA"}' --account-id mtoan2111.testnet --gas=300000000000000
+near call mtoan2193.testnet tk_register '{"name":"Gefi_5", "symbol":"GF", "icon":"AA", "ref": "mtoan2111.testnet"}' --account-id mtoan2111.testnet --gas=300000000000000 --deposit 1
 near call mtoan2193.testnet tk_gets '{"owner":"mtoan2193.testnet"}' --account-id mtoan2111.testnet  --gas=300000000000000
+near call mtoan2193.testnet gm_register '{"name":"Caro", "symbol":"CRF", "icon":"AA", "space":"Gefi", "token":"Gefi_5"}' --account-id mtoan2111.testnet --gas=300000000000000
+
+near call mtoan2193.testnet us_get '{}' --account-id mtoan2111.testnet --gas=300000000000000
+near call mtoan2193.testnet us_deposit '{"to":"Gefi_5"}' --account-id mtoan2111.testnet --gas=300000000000000 --deposit 1
+near call mtoan2193.testnet us_withDraw '{"from":"Gefi_5", "amount": "1"}' --account-id mtoan2111.testnet --gas=300000000000000

@@ -2,7 +2,7 @@ import { Context, u128 } from "near-sdk-core";
 import { User } from "../model/user.model";
 import { UserStorage } from "../storage/user.storage";
 
-export function deposit(to: String): void {
+export function us_deposit(to: String): void {
     const userId = Context.sender;
     const userExisted = UserStorage.get(userId);
     if (userExisted == null) {
@@ -17,7 +17,7 @@ export function deposit(to: String): void {
     return;
 }
 
-export function withDraw(from: String, amount: u128): void {
+export function us_withDraw(from: String, amount: u128): void {
     const userId = Context.sender;
     const userExisted = UserStorage.get(userId);
     if (userExisted == null) {
@@ -27,4 +27,14 @@ export function withDraw(from: String, amount: u128): void {
     userExisted.subBalance(from, amount);
     userExisted.save();
     return;
+}
+
+const userId = Context.sender;
+export function us_get(): String | null {
+    const user = UserStorage.get(userId);
+    if (user != null){
+        return user.toString();
+    }
+
+    return null;
 }

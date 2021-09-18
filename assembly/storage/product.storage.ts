@@ -1,7 +1,5 @@
 import { PersistentSet, PersistentUnorderedMap } from "near-sdk-core";
 import { Product } from "../model/product.model";
-import { Space } from "../model/space.model";
-import { Context } from "near-sdk-core";
 
 const gefi_Products = new PersistentUnorderedMap<String, Product>("_gGm");
 
