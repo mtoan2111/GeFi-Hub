@@ -47,3 +47,7 @@ near call neutrino.testnet gm_register '{\"name\":\"Gefi\", \"symbol\":\"GF\", \
 near call neutrino.testnet gm_unregister '{\"space\":\"gefi\", \"name\":\"Gefi\"}' --account-id neutrino.testnet --gas=300000000000000
 near call neutrino.testnet sp_register '{\"name\":\"gefi\", \"symbol\":\"GF\", \"icon\":\"AA\"}' --account-id neutrino.testnet --gas=300000000000000
 
+
+//----
+near call mtoan2193.testnet tk_register '{"name":"Gefi", "symbol":"GF", "icon":"AA"}' --account-id mtoan2111.testnet --gas=300000000000000 --deposit 100
+near call mtoan2193.testnet tk_gets '{"owner":"mtoan2193.testnet"}' --account-id mtoan2111.testnet  --gas=300000000000000

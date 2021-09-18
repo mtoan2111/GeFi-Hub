@@ -7,7 +7,8 @@ import { TokenStorage } from "../storage/token.storage";
 import { ProductStorage } from "../storage/product.storage";
 
 export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): Product | null {
-    if (ProductStorage.contain(space, name)) {
+    const ownerId = Context.sender;
+    if (ProductStorage.contain(name)) {
         return null;
     }
     let existedSpace: Space | null = SpaceStorage.get(Context.sender, space);
@@ -23,35 +24,24 @@ export function gm_register(name: String, symbol: String, icon: String, space: S
     reg_game.update_token(existedToken);
     reg_game.register();
 
-    // if (isSpace && isToken) {
-
-    // } else if (!isSpace && isToken) {
-    // } else if (isSpace && !isToken) {
-    // }
     return reg_game;
 }
-// Delete Space which included games
-export function gm_unregisters(space: String): Product[] | null {
-    let ownerId = Context.sender;
-    let cr_space: SpaceStorage | null;
-    if (SpaceStorage.contain(ownerId) && ProductStorage.contains(space)) {
-        return ProductStorage.deletes(space);
-    }
-    return null;
-}
-// Delete a game
+
+// Delete a product
 export function gm_unregister(space: String, name: String): Product | null {
-    return ProductStorage.delete(space, name);
+    const ownerId = Context.sender;
+    return ProductStorage.delete(ownerId, space, name);
 }
 
 export function gm_update(space: String, name: String, symbol: String, icon: String): bool {
-    let game = ProductStorage.get(space, name);
-    if (!game) {
+    const ownerId = Context.sender;
+    let product = ProductStorage.get(ownerId, space, name);
+    if (!product) {
         return false;
     }
-    game.update_icon(icon);
-    game.update_symbol(symbol);
-    game.save();
+    product.update_icon(icon);
+    product.update_symbol(symbol);
+    product.save();
     // ProductStorage.set(space, game);
     return true;
 }

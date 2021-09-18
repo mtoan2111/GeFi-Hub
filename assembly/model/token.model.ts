@@ -1,14 +1,16 @@
 import { u128, u256 } from "near-sdk-core";
 import { TokenStorage } from "../storage/token.storage";
-import { Context } from "near-sdk-core"
-const TRANSFORM_RATE: u128 = u128.fromString('1000000000');
+import { Context } from "near-sdk-core";
+const TRANSFORM_RATE: u128 = u128.fromString("1000000000");
 @nearBindgen
 export class Token {
+    public owner: String;
     public rate: f64; // rate = token/near
     public balance: u128 = u128.Zero;
     public near_balance: u128 = u128.Zero; // For MVP product only
     private P: u128; // For MVP product only
     constructor(public name: String, public symbol: String, public icon: String) {
+        this.owner = Context.sender;
         this.rate = 0;
         this.near_balance = this.getTokenValue(Context.attachedDeposit);
         this.balance = this.near_balance;
@@ -119,7 +121,11 @@ export class Token {
         return true;
     }
 
+    toString(): String {
+        return `{"name": ${this.name}, "symbol": ${this.symbol}, "icon": ${this.icon}}`;
+    }
+
     save(): void {
-        TokenStorage.set(Context.sender, this);
+        TokenStorage.set(this);
     }
 }

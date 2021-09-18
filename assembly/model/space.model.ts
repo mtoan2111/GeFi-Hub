@@ -21,6 +21,6 @@ export class Space {
     }
 
     save(): void {
-        SpaceStorage.set(this.owner, this);
+        SpaceStorage.set(this);
     }
 }

@@ -1,11 +1,15 @@
+import { Context } from "near-sdk-core";
 import { ProductStorage } from "../storage/product.storage";
 import { Space } from "./space.model";
 import { Token } from "./token.model";
 
 @nearBindgen
 export class Product {
+    public owner: String;
     public token: Token;
-    constructor(public name: String, public symbol: String, public icon: String, public space: Space) {}
+    constructor(public name: String, public symbol: String, public icon: String, public space: Space) {
+        this.owner = Context.sender;
+    }
 
     register(): void {
         this.save();
@@ -33,6 +37,6 @@ export class Product {
     }
 
     save(): void {
-        ProductStorage.set(this.space.name, this);
+        ProductStorage.set(this);
     }
 }
