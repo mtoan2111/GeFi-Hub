@@ -38,3 +38,12 @@ near call gefihub.neutrino.testnet buy_token '{\"ownerId\":\"s\", \"name\":\"\"}
 
 near call gefihub.neutrino.testnet tk_register '{\"name\":\"Gefi\", \"symbol\":\"GF\", \"icon\":\"AA\"}' --account-id neutrino.testnet --gas=300000000000000 --deposit 100
 
+
+
+// ----------------------------
+near call neutrino.testnet tk_register '{\"name\":\"Gefi\", \"symbol\":\"GF\", \"icon\":\"AA\"}' --account-id neutrino.testnet --gas=300000000000000 --deposit 100
+near call neutrino.testnet buy_token '{\"ownerId\":\"neutrino.testnet\", \"name\":\"Gefi\"}' --account-id neutrino.testnet --gas=300000000000000 --deposit 10
+near call neutrino.testnet gm_register '{\"name\":\"Gefi\", \"symbol\":\"GF\", \"icon\":\"AA\", \"space\":\"gefi\", \"token\":\"Gefi\"}' --account-id neutrino.testnet --gas=300000000000000 --deposit 10
+near call neutrino.testnet gm_unregister '{\"space\":\"gefi\", \"name\":\"Gefi\"}' --account-id neutrino.testnet --gas=300000000000000
+near call neutrino.testnet sp_register '{\"name\":\"gefi\", \"symbol\":\"GF\", \"icon\":\"AA\"}' --account-id neutrino.testnet --gas=300000000000000
+
