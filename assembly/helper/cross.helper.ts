@@ -4,9 +4,9 @@ import { DepositArgs, WithdrawArgs } from "../model/cross.model";
 // const target_contract = "gefimatch.neutrino.testnet";
 const GAS_AMOUNT = 100000000000000;
 
-export function CrossDeposit(target_contract: String): ContractPromise {
+export function CrossDeposit(target_contract: String, value: u128): ContractPromise {
     let args: DepositArgs = {};
-    let promise = ContractPromise.create(target_contract.toString(), "deposit", args.encode(), GAS_AMOUNT, Context.attachedDeposit);
+    let promise = ContractPromise.create(target_contract.toString(), "deposit", args.encode(), GAS_AMOUNT, value);
     return promise;
 }
 
