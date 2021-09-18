@@ -71,11 +71,10 @@ export class User {
         let tokenBalance = this._findToken(usr_tokens, token);
         if (tokenBalance == null) {
             return null;
-            // usr_tokens.add(tokenBalance);
         }
 
         let new_balance = tokenBalance.getBalance();
-        if (u128.ge(new_balance, value)) {
+        if (u128.le(new_balance, value)) {
             return null;
         }
 
@@ -85,21 +84,21 @@ export class User {
         tokenBalance.updateBalance(new_balance);
         usr_tokens.set(tokenBalance.name, tokenBalance);
         this._setToken(usr_tokens);
-        
+
         return new_balance;
     }
 
     toString(): String {
         const tokens = this._getToken().values();
         let rets = `{"id": "${this.id}",`;
-        let token = `"token": [`;
+        let token = `"token": {`;
         for (let i = 0; i < tokens.length; i++) {
-            token += `"${tokens[i].name}":${tokens[i].getBalance()}}`;
+            token += `"${tokens[i].name}":${tokens[i].getBalance()}`;
             if (i < tokens.length - 1) {
                 token += ",";
             }
         }
-        token += `]`;
+        token += `}`;
         rets += `${token}}`;
         return rets;
     }
