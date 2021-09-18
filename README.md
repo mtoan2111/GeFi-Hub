@@ -67,238 +67,238 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
 
 - Space will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
-```typescript
-type owner_id = String;
+    ```typescript
+    type owner_id = String;
 
-type space_name = String;
+    type space_name = String;
 
-class Space {
-    public owner: String;
-    public name: String;
-    public symbol: String;
-    public icon: String
-}
+    class Space {
+        public owner: String;
+        public name: String;
+        public symbol: String;
+        public icon: String
+    }
 
-const gefi_Spaces = PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, Space>>("gSp");
-```
+    const gefi_Spaces = PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, Space>>("gSp");
+    ```
 
 - Space public user interface
   
 1. Register new space to system
 
-```typescript
-/**
- * Each owner can register multiple spaces, but them need to have a unique name
- * @param:
- * name: Unique of space
- * symbol: The symbol of space
- * icon: The icon of space in base64
- * @return
- * a new space or null if it exists
-**/
-function sp_register(name: String, symbol: String, icon: String): Space | null {}
-```
+    ```typescript
+    /**
+     * Each owner can register multiple spaces, but them need to have a unique name
+     * @param:
+     * name: Unique of space
+     * symbol: The symbol of space
+     * icon: The icon of space in base64
+     * @return
+     * a new space or null if it exists
+    **/
+    function sp_register(name: String, symbol: String, icon: String): Space | null {}
+    ```
 
 1. Unregister all space of owner
 
-```typescript
-/**
- * @param:
- * @return:
- * return all spaces of owner or null if the owner does not have any spaces
-**/
-function sp_unregisters(): Space[] | null {}
-```
+    ```typescript
+    /**
+     * @param:
+     * @return:
+     * return all spaces of owner or null if the owner does not have any spaces
+    **/
+    function sp_unregisters(): Space[] | null {}
+    ```
 
 1. Unregister a space of owner
 
-```typescript
-/**
- * @param:
- * name: Space name need to be unregister
- * @return:
- * return a deleted space or null if it is not exist
-**/
-function sp_unregister(name: String): Space | null {}
-```
+    ```typescript
+    /**
+     * @param:
+     * name: Space name need to be unregister
+     * @return:
+     * return a deleted space or null if it is not exist
+    **/
+    function sp_unregister(name: String): Space | null {}
+    ```
 
 1. Update space detail
 
-```typescript
-/**
- * @param:
- * name: Name of space need to be updated
- * symbol: new symbol of space
- * icon: new icon of space
- * @return
- * true if space updated otherwise false
-**/
-function sp_update(name: String, symbol: String, icon: String): bool {}
-```
+    ```typescript
+    /**
+     * @param:
+     * name: Name of space need to be updated
+     * symbol: new symbol of space
+     * icon: new icon of space
+     * @return
+     * true if space updated otherwise false
+    **/
+    function sp_update(name: String, symbol: String, icon: String): bool {}
+    ```
 
 ### Token Hub
 
 - Each owner can have multiple tokens at multiple rates. Owners can use tokens for multiple products or one token for all products. It depends on the needs of the owner.
 - Token will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
-```typescript
-type owner_id = String;
+    ```typescript
+    type owner_id = String;
 
-type token_name = String;
+    type token_name = String;
 
-class Token {
-    public owner: String;
-    public name: String;
-    public symbol: String;
-    public icon: String
-    public rate: f64; // rate = token/near
-    public balance: u128 = u128.Zero;
-    public near_balance: u128 = u128.Zero; // For MVP product only
-    private P: u128; // For MVP product only
-}
+    class Token {
+        public owner: String;
+        public name: String;
+        public symbol: String;
+        public icon: String
+        public rate: f64; // rate = token/near
+        public balance: u128 = u128.Zero;
+        public near_balance: u128 = u128.Zero; // For MVP product only
+        private P: u128; // For MVP product only
+    }
 
-const gefi_Tokens = new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<token_name, Token>>("gtk");
-```
+    const gefi_Tokens = new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<token_name, Token>>("gtk");
+    ```
 
 1. Register new token to system.
 
-```js
-/**
- * @param:
- * name: Name of token need to be uniqe
- * symbol: The symbol of token
- * icon: The icon of token
- * @return
- * return the created token or null if it exists
- **/
-function tk_register(name: String, symbol: String, icon: String): Token | null {}
-```
+    ```js
+    /**
+     * @param:
+     * name: Name of token need to be uniqe
+     * symbol: The symbol of token
+     * icon: The icon of token
+     * @return
+     * return the created token or null if it exists
+     **/
+    function tk_register(name: String, symbol: String, icon: String): Token | null {}
+    ```
 
 1. Unregister all token
 
-```js
-/**
- * @param 
- * @return
- * return all unregistered tokens or null if owner does not have any tokens
- **/
-export function tk_unregisters(): Token[] | null {}
-```
+    ```js
+    /**
+     * @param 
+     * @return
+     * return all unregistered tokens or null if owner does not have any tokens
+     **/
+    export function tk_unregisters(): Token[] | null {}
+    ```
 
 1. Unregister a specific token
 
-```js
-/**
- * @param
- * name: Name of token that need to be unregistered
- * @return
- * return the unregistered token or null if it is not exists
-**/
-export function tk_unregister(name: String): Token | null {}
-```
+    ```js
+    /**
+     * @param
+     * name: Name of token that need to be unregistered
+     * @return
+     * return the unregistered token or null if it is not exists
+    **/
+    export function tk_unregister(name: String): Token | null {}
+    ```
 
 1. Update token detail
 
-```js
-/**
- * @param
- * name: Name of the token that need to be updated
- * symbol: new symbol of token
- * icon: new icon of token
- * @return
- * return trur if the token updated otherwise false
-**/
-function tk_update(name: String, symbol: String, icon: String): bool {}
-```
+    ```js
+    /**
+     * @param
+     * name: Name of the token that need to be updated
+     * symbol: new symbol of token
+     * icon: new icon of token
+     * @return
+     * return trur if the token updated otherwise false
+    **/
+    function tk_update(name: String, symbol: String, icon: String): bool {}
+    ```
 
 1. Get the token rate
 
-```js
-/**
- * @param
- * ownerId: ownerid of the token
- * name: name of token
- * @return
- * return the rate token/near
-**/
-function get_rate(ownerId: String, name: String): f64 {}
-```
+    ```js
+    /**
+     * @param
+     * ownerId: ownerid of the token
+     * name: name of token
+     * @return
+     * return the rate token/near
+    **/
+    function get_rate(ownerId: String, name: String): f64 {}
+    ```
 
 ### Product Hub
 
 - Each owner can have multiple product as described above. A product can be a game, a music stream or anything else, needs to belong to a certain space and own a token for it.
 - Product will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
-```typescript
-type owner_id = String;
+    ```typescript
+    type owner_id = String;
 
-type space_name = String;
+    type space_name = String;
 
-type product_name = String;
+    type product_name = String;
 
-class Token {
-    public name: String;
-    public symbol: String;
-    public icon: String
-    public space: Space;
-    public token: Token;
-}
+    class Token {
+        public name: String;
+        public symbol: String;
+        public icon: String
+        public space: Space;
+        public token: Token;
+    }
 
-const gefi_Products = 
-    new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, PersistentUnorderedMap<product_name, Product>>>("gGm");
-```
+    const gefi_Products = 
+        new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, PersistentUnorderedMap<product_name, Product>>>("gGm");
+    ```
 
 1. Register new product to space and assign token
 
-```typescript
-/**
- * @param
- * name: Name of product need to be uniqe
- * symbol: symbol of product
- * icon: icon of product
- * space: space will contain the product
- * token: token will be used in the product
- * @return
- * return the registered product or null if space or token could not be found or product exists
-**/
-export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): : Product | null {
-}
-```
+    ```typescript
+    /**
+     * @param
+     * name: Name of product need to be uniqe
+     * symbol: symbol of product
+     * icon: icon of product
+     * space: space will contain the product
+     * token: token will be used in the product
+     * @return
+     * return the registered product or null if space or token could not be found or product exists
+    **/
+    export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): : Product | null {
+    }
+    ```
 
 1. Unregister all products
 
-```typescript
-/**
- * @param
- * space: Space name need to unregister all product
- * @return
- * return all unregistered product or null if the space does not have any product
-**/
-export function gm_unregisters(space: String): Product[] | null {}
-```
+    ```typescript
+    /**
+     * @param
+     * space: Space name need to unregister all product
+     * @return
+     * return all unregistered product or null if the space does not have any product
+    **/
+    export function gm_unregisters(space: String): Product[] | null {}
+    ```
 
 1. Unregister a certain product
 
-```typescript
-/**
- * @param
- * space: Space of product
- * name: Name of product that need to be unregistered
- * @return
- * the unregisterd product or null if it is not exist
-**/
-export function gm_unregister(space: String, name: String): Product | null {}
-```
+    ```typescript
+    /**
+     * @param
+     * space: Space of product
+     * name: Name of product that need to be unregistered
+     * @return
+     * the unregisterd product or null if it is not exist
+    **/
+    export function gm_unregister(space: String, name: String): Product | null {}
+    ```
 
 1. Update product detail
 
-```typescript
-/**
- * @param:
- * space: Space of product that need to be updated
- * name: Name of product that need to be updated
- * symbol: new symbol of product
- * icon: new icon of product
-**/
-export function gm_update(space: String, name: String, symbol: String, icon: String): bool {}
-```
+    ```typescript
+    /**
+     * @param:
+     * space: Space of product that need to be updated
+     * name: Name of product that need to be updated
+     * symbol: new symbol of product
+     * icon: new icon of product
+    **/
+    export function gm_update(space: String, name: String, symbol: String, icon: String): bool {}
+    ```
