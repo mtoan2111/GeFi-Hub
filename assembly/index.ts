@@ -53,8 +53,8 @@ export function get_rate(ownerId: String, name: String): f64 {
     return token.get_rate(ownerId, name);
 }
 
-// export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
-//     return token.buy_near(ownerId, name, amount);
+// export function deposit(to: String): void {
+//     user.deposit(to);
 // }
 
 // export function buy_token(ownerId: String, name: String): ContractPromise | null {

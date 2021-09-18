@@ -29,8 +29,8 @@ export function us_withDraw(from: String, amount: u128): void {
     return;
 }
 
-const userId = Context.sender;
 export function us_get(): String | null {
+    const userId = Context.sender;
     const user = UserStorage.get(userId);
     if (user != null){
         return user.toString();
