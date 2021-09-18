@@ -1,6 +1,7 @@
 import * as game from "./controller/product.controller";
 import * as space from "./controller/space.controller";
 import * as token from "./controller/token.controller";
+import * as user from "./controller/user.controller";
 import { Product } from "./model/product.model";
 import { Space } from "./model/space.model";
 import { Token } from "./model/token.model";
@@ -50,10 +51,10 @@ export function get_rate(ownerId: String, name: String): f64 {
     return token.get_rate(ownerId, name);
 }
 
-// export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
-//     return token.buy_near(ownerId, name, amount);
-// }
+export function deposit(to: String): void {
+    user.deposit(to);
+}
 
-// export function buy_token(ownerId: String, name: String): ContractPromise | null {
-//     return token.buy_token(ownerId, name);
-// }
+export function withDraw(from: String, amount: u128): void {
+    user.withDraw(from, amount);
+}

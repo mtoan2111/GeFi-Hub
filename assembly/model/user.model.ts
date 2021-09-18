@@ -18,12 +18,14 @@ export class User {
         if (tokenExisted == null) {
             return null;
         }
-        let tokenBalance = this.balance.get(token);
-        if (tokenBalance == null) {
-            tokenBalance = u128.Zero;
+        let tokenBalance: u128 = u128.Zero;
+        let tmpToken = this.balance.get(token);
+        if (tmpToken !== null) {
+            tokenBalance = tmpToken;
         }
         CrossDeposit(tokenExisted.ref);
         //TODO: Need to implement call back from contract promise then update user balance
+        tokenExisted.add_balance(value);
         u128.add(tokenBalance, value);
 
         return tokenBalance;
@@ -34,8 +36,11 @@ export class User {
         if (tokenExisted == null) {
             return null;
         }
-        let tokenBalance = this.balance.get(token);
-        if (tokenBalance == null) {
+        let tokenBalance: u128 = u128.Zero;
+        let tmpToken = this.balance.get(token);
+        if (tmpToken !== null) {
+            tokenBalance = tmpToken;
+        } else {
             return null;
         }
         if (u128.ge(tokenBalance, value)) {
@@ -44,6 +49,7 @@ export class User {
 
         CrossWithdraw(tokenExisted.ref, value);
         //TODO: Need to implement call back from contract promise then update user balance
+        tokenExisted.sub_balance(value);
         u128.sub(tokenBalance, value);
         return tokenBalance;
     }
