@@ -1,9 +1,9 @@
-import { GameStorage } from "../storage/game.storage";
+import { ProductStorage } from "../storage/product.storage";
 import { Space } from "./space.model";
 import { Token } from "./token.model";
 
 @nearBindgen
-export class Game {
+export class Product {
     public token: Token;
     constructor(public name: String, public symbol: String, public icon: String, public space: Space) {}
 
@@ -14,25 +14,25 @@ export class Game {
     update_token(token: Token): void {
         if (!this.token.compare(token)) {
             this.token = token;
+            this.save();
         }
-        this.save();
     }
 
     update_symbol(symbol: String): void {
         if (symbol != this.symbol) {
             this.symbol = symbol;
+            this.save();
         }
-        this.save();
     }
 
     update_icon(icon: String): void {
         if (icon != this.icon) {
             this.icon = icon;
+            this.save();
         }
-        this.save();
     }
 
     save(): void {
-        GameStorage.set(this.space.name, this);
+        ProductStorage.set(this.space.name, this);
     }
 }

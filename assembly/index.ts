@@ -1,20 +1,20 @@
-import * as game from "./controller/game.controller";
+import * as game from "./controller/product.controller";
 import * as space from "./controller/space.controller";
 import * as token from "./controller/token.controller";
-import { Game } from "./model/game.model"
+import { Product } from "./model/product.model"
 import { Space } from "./model/space.model";
 import { Token } from "./model/token.model";
 import { u128, ContractPromise } from "near-sdk-as";
 
-export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): String {
+export function gm_register(name: String, symbol: String, icon: String, space: String, token: String): Product | null {
     return game.gm_register(name, symbol, icon, space, token);
 }
 
-export function gm_unregisters(space: String): Game[] | null {
+export function gm_unregisters(space: String): Product[] | null {
     return game.gm_unregisters(space);
 }
 
-export function gm_unregister(space: String, name: String): Game[] | null {
+export function gm_unregister(space: String, name: String): Product | null {
     return game.gm_unregister(space, name);
 }
 
