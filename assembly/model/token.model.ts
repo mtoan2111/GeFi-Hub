@@ -9,7 +9,7 @@ export class Token {
     public balance: u128 = u128.Zero;
     public near_balance: u128 = u128.Zero; // For MVP product only
     private P: u128; // For MVP product only
-    constructor(public name: String, public symbol: String, public icon: String) {
+    constructor(public name: String, public symbol: String, public icon: String, public ref: String) {
         this.owner = Context.sender;
         this.rate = 0;
         this.near_balance = this.getTokenValue(Context.attachedDeposit);

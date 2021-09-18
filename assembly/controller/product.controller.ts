@@ -15,7 +15,7 @@ export function gm_register(name: String, symbol: String, icon: String, space: S
     if (existedSpace == null) {
         return null;
     }
-    let existedToken: Token | null = TokenStorage.get(Context.sender, token);
+    let existedToken: Token | null = TokenStorage.get(token);
     if (existedToken == null) {
         return null;
     }

@@ -30,8 +30,8 @@ export function sp_update(name: String, symbol: String, icon: String): bool {
     return space.sp_update(name, symbol, icon);
 }
 
-export function tk_register(name: String, symbol: String, icon: String): Token | null {
-    return token.tk_register(name, symbol, icon);
+export function tk_register(name: String, symbol: String, icon: String, ref: String): Token | null {
+    return token.tk_register(name, symbol, icon, ref);
 }
 
 export function tk_unregister(name: String): Token | null {
@@ -50,10 +50,10 @@ export function get_rate(ownerId: String, name: String): f64 {
     return token.get_rate(ownerId, name);
 }
 
-export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
-    return token.buy_near(ownerId, name, amount);
-}
+// export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
+//     return token.buy_near(ownerId, name, amount);
+// }
 
-export function buy_token(ownerId: String, name: String): ContractPromise | null {
-    return token.buy_token(ownerId, name);
-}
+// export function buy_token(ownerId: String, name: String): ContractPromise | null {
+//     return token.buy_token(ownerId, name);
+// }

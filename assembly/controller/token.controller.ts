@@ -4,12 +4,12 @@ import { TokenStorage } from "../storage/token.storage";
 import { u128, ContractPromise, ContractPromiseBatch } from "near-sdk-core";
 import { CrossDeposit, CrossWithdraw } from "../helper/cross.helper";
 
-export function tk_register(name: String, symbol: String, icon: String): Token | null {
+export function tk_register(name: String, symbol: String, icon: String, ref: String): Token | null {
     const ownerId = Context.sender;
     if (TokenStorage.contains(ownerId, name)) {
-        return TokenStorage.get(ownerId, name);
+        return TokenStorage.get(name);
     }
-    const new_token = new Token(name, symbol, icon);
+    const new_token = new Token(name, symbol, icon, ref);
     new_token.update_rate(1);
     new_token.save();
     return new_token;
@@ -22,8 +22,8 @@ export function tk_unregister(name: String): Token | null {
 
 export function tk_update(name: String, symbol: String, icon: String): bool {
     const ownerId = Context.sender;
-    const token = TokenStorage.get(ownerId, name);
-    if (token == null) {
+    const token = TokenStorage.get(name);
+    if (token == null || token.owner !== ownerId) {
         return false;
     }
 
@@ -39,7 +39,7 @@ export function get_rate(ownerId: String, name: String): f64 {
     if (!TokenStorage.contains(ownerId, name)) {
         return -1;
     }
-    token = TokenStorage.get(ownerId, name);
+    token = TokenStorage.get(name);
     // Call something to confirmed user has transfered token
     if (!token) {
         return -1;
@@ -48,36 +48,37 @@ export function get_rate(ownerId: String, name: String): f64 {
 }
 
 // For MVP product only
-export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
-    let token: Token | null;
-    if (!TokenStorage.contains(ownerId, name)) {
-        return null;
-    }
-    token = TokenStorage.get(ownerId, name);
-    // Call something to confirmed user has transfered token
-    if (!token) {
-        return null;
-    }
-    token.buy_near(amount);
-    // TODO: Transfer near to sender
-    return CrossWithdraw(amount);
-}
+// export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {
+//     // const ownerId = Context.sender;
+//     let token: Token | null;
+//     if (!TokenStorage.contains(ownerId, name)) {
+//         return null;
+//     }
+//     token = TokenStorage.get(ownerId, name);
+//     // Call something to confirmed user has transfered token
+//     if (!token) {
+//         return null;
+//     }
+//     token.buy_near(amount);
+//     // TODO: Transfer near to sender
+//     return CrossWithdraw(amount);
+// }
 
-export function buy_token(ownerId: String, name: String): ContractPromise | null {
-    let token: Token | null;
-    if (!TokenStorage.contains(ownerId, name)) {
-        return null;
-    }
-    token = TokenStorage.get(ownerId, name);
-    if (!token) {
-        return null;
-    }
-    let amount = Context.attachedDeposit;
-    token.buy_token(amount);
-    // TODO: Cross contract call to add token
-    return CrossDeposit();
-}
+// export function buy_token(ownerId: String, name: String): ContractPromise | null {
+//     let token: Token | null;
+//     if (!TokenStorage.contains(ownerId, name)) {
+//         return null;
+//     }
+//     token = TokenStorage.get(ownerId, name);
+//     if (!token) {
+//         return null;
+//     }
+//     let amount = Context.attachedDeposit;
+//     token.buy_token(amount);
+//     // TODO: Cross contract call to add token
+//     return CrossDeposit();
+// }
 
 export function tk_get(owner: String): Token[] {
-    return TokenStorage.gets(owner).values();
+    return TokenStorage.gets();
 }

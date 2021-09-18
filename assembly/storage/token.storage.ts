@@ -4,28 +4,16 @@ import { Token } from "../model/token.model";
 const gefi_Tokens = new PersistentUnorderedMap<String, Token>("_gtk");
 
 export class TokenStorage {
-    static get(owner: String, token: String): Token | null {
+    static get(token: String): Token | null {
         if (!gefi_Tokens.contains(token)) {
             return null;
         }
-        const pm_Token: Token = gefi_Tokens.getSome(owner);
-        if (pm_Token.owner == owner) {
-            return pm_Token;
-        }
-        return null;
+        const pm_Token: Token = gefi_Tokens.getSome(token);
+        return pm_Token;
     }
 
-    static gets(owner: String): PersistentSet<Token> {
-        const tokenLength = gefi_Tokens.length;
-        const tokens = gefi_Tokens.values();
-        const f_tokens = new PersistentSet<Token>("pms");
-        for (let i = 0; i < tokenLength; i++) {
-            if (tokens[i] != null && tokens[i].owner == owner) {
-                f_tokens.add(tokens[i]);
-            }
-        }
-
-        return f_tokens;
+    static gets(): Token[] {
+        return gefi_Tokens.values();
     }
 
     static set(token: Token): void {

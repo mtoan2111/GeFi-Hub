@@ -68,8 +68,6 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
 - Space will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
     ```typescript
-    type owner_id = String;
-
     type space_name = String;
 
     class Space {
@@ -79,7 +77,7 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
         public icon: String
     }
 
-    const gefi_Spaces = PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, Space>>("gSp");
+    const gefi_Spaces = PersistentUnorderedMap<space_name, Space>("gSp");
     ```
 
 - Space public user interface
@@ -142,8 +140,6 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
 - Token will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
     ```typescript
-    type owner_id = String;
-
     type token_name = String;
 
     class Token {
@@ -157,7 +153,7 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
         private P: u128; // For MVP product only
     }
 
-    const gefi_Tokens = new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<token_name, Token>>("gtk");
+    const gefi_Tokens = new PersistentUnorderedMap<token_name, Token>("gtk");
     ```
 
 1. Register new token to system.
@@ -224,16 +220,26 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
     function get_rate(ownerId: String, name: String): f64 {}
     ```
 
+1. Swap from ```in-game Token``` to ```NEAR```
+
+```typescript
+/**
+ * @param
+ * ownerId
+**/
+export function buy_near(ownerId: String, name: String, amount: u128): ContractPromiseBatch | null {}
+```
+
+
+export function buy_token(ownerId: String, name: String): ContractPromise | null {
+    return token.buy_token(ownerId, name);
+}
 ### Product Hub
 
 - Each owner can have multiple product as described above. A product can be a game, a music stream or anything else, needs to belong to a certain space and own a token for it.
 - Product will be storage in ```PersistentUnorderedMap``` to get the maximum performance during ```get``` and ```set```
 
     ```typescript
-    type owner_id = String;
-
-    type space_name = String;
-
     type product_name = String;
 
     class Token {
@@ -244,8 +250,7 @@ With GEFI, we collect the transaction fee on our system, publish the NEP-141 cal
         public token: Token;
     }
 
-    const gefi_Products = 
-        new PersistentUnorderedMap<owner_id, PersistentUnorderedMap<space_name, PersistentUnorderedMap<product_name, Product>>>("gGm");
+    const gefi_Products = new PersistentUnorderedMap<product_name, Product>("gGm");
     ```
 
 1. Register new product to space and assign token
