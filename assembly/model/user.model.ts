@@ -44,15 +44,16 @@ export class User {
             tokenBalance = new UserToken(this.id, token);
             // usr_tokens.add(tokenBalance);
         }
-
-        CrossDeposit(tk_blc.ref);
+        // u128.mul(tokenBalance.getBalance(), u128.fromF64(tk_blc.rate))
+        let n_value = u128.mul(value, u128.fromF64(tk_blc.rate));
+        CrossDeposit(tk_blc.ref, n_value);
         let new_balance = tokenBalance.getBalance();
-        new_balance = u128.add(new_balance, value);
+        new_balance = u128.add(new_balance, n_value);
         // //TODO: Need to implement call back from contract promise then update user balance
         tokenBalance.updateBalance(new_balance);
         usr_tokens.set(tokenBalance.name, tokenBalance);
         this._setToken(usr_tokens);
-
+        tk_blc.sub_balance(n_value);
         return new_balance;
     }
 
@@ -70,19 +71,18 @@ export class User {
         if (tokenBalance == null) {
             return null;
         }
-
         let new_balance = tokenBalance.getBalance();
         if (u128.le(new_balance, value)) {
             return null;
         }
-
-        CrossWithdraw(tk_blc.ref, value);
+        let n_value = u128.div(value, u128.fromF64(tk_blc.rate));
+        CrossWithdraw(tk_blc.ref, n_value);
         //TODO: Need to implement call back from contract promise then update user balance
-        new_balance = u128.sub(new_balance, value);
+        new_balance = u128.sub(new_balance, n_value);
         tokenBalance.updateBalance(new_balance);
         usr_tokens.set(tokenBalance.name, tokenBalance);
         this._setToken(usr_tokens);
-
+        tk_blc.add_balance(n_value);
         return new_balance;
     }
 
