@@ -23,11 +23,9 @@ export class UserToken {
 @nearBindgen
 export class User {
     public id: String;
-    public balance: PersistentUnorderedMap<String, UserToken>;
 
     constructor() {
         this.id = Context.sender;
-        this.balance = new PersistentUnorderedMap<String, UserToken>(`${this.id}`);
     }
 
     addBalance(token: String, value: u128): u128 | null {
